@@ -63,4 +63,22 @@ public class NegativTest {
         driver.findElement(By.cssSelector("button.button")).click();
         assertTrue(driver.findElement(By.cssSelector("[data-test-id='agreement'].input_invalid")).isDisplayed());
     }
+
+    @Test
+    public void fieldNameInvalidValue() {
+        driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Dima");
+        driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79210000000");
+        driver.findElement(By.cssSelector("button.button")).click();
+        assertEquals("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.",
+                driver.findElement(By.cssSelector("[data-test-id='name'].input_invalid .input__sub")).getText().trim());
+    }
+
+    @Test
+    public void fieldPhoneInvalidValue() {
+        driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Жуков Дмитрий");
+        driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("8");
+        driver.findElement(By.cssSelector("button.button")).click();
+        assertEquals("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.",
+                driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub")).getText().trim());
+    }
 }
